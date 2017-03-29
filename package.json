@@ -1,5 +1,5 @@
 {
-  "name": "mhacks9",
+  "name": "music9",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NQureshi850/MHacks9.git"
+    "url": "git+https://github.com/Maxattax97/Musiq.git"
   },
   "author": "",
   "license": "",
   "bugs": {
-    "url": "https://github.com/NQureshi850/MHacks9/issues"
+    "url": "https://github.com/Maxattax97/Musiq/issues"
   },
-  "homepage": "https://github.com/NQureshi850/MHacks9#readme",
+  "homepage": "https://github.com/Maxattax97/Musiq#readme",
   "dependencies": {
     "firebase-admin": "^4.1.3"
   }
