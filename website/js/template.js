@@ -1,14 +1,11 @@
 /* eslint-env jquery */
 /* global database window WebSocket YT*/
+var verbose = true;
+
 var player;
 var shouldMute = true;
 var socket;
 var doPause = true;
-
-function start()
-{
-    $("document").ready(initialize);
-}
 
 function initialize()
 {
@@ -240,7 +237,7 @@ function onYouTubeIframeAPIReady()
 
 function onPlayerReady(event)
 {
-    start();
+    $("document").ready(initialize);
 }
 
 function onStateChange(event)

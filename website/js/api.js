@@ -11,7 +11,5 @@ const config = {
     messagingSenderId: "474432084634"
 };
 
-console.log("jiiini");
-
 firebase.initializeApp(config);
 database = firebase.database();
