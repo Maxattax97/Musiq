@@ -1,17 +1,23 @@
 /* global YT */
 
 var audioplayerVerbose = true;
+var audioplayerVerboseExtra = false;
 
-var exports = module.exports = {};
-exports.theObject = class audioplayer
+class AudioPlayer
 {
-    constructor(audioID, source)
+    /**
+     * Constructor for the AudioPlayer class
+     * @AudioPlayer
+     * @param {Integer} [source] For setting up the Youtube Player, source = 0; for setting up the SoundCloud Player, source = 1
+     */
+    constructor(source)
     {
-        if(audioplayerVerbose)
-        {
-            console.log("Creating audioplayer instance with values : {audioID=" + audioID + ", source=" + (["Youtube", "SoundCloud"][source]) + "}");
+        //verbosity check for console logging.
+        if(audioplayerVerbose) {
+            console.log("Creating audioplayer instance with values : {source=" + (["Youtube", "SoundCloud"][source]) + "}");
         }
-        this.audioID = audioID;
+
+        //initializing class variables
         this.source = source;
     }
 
@@ -29,17 +35,21 @@ exports.theObject = class audioplayer
             var handleEvents;
             if(onReadyCallback === undefined) {
                 handleEvents.onReady = function(event) {
+                    //verbosity check for console logging.
                     if(audioplayerVerbose) {
                         console.log("Youtube player is ready");
                     }
+                    //parameter callback
                     onReadyCallback(event);
                 };
             }
             if(onStateCallback === undefined) {
                 handleEvents.onStateChange = function (event) {
+                    //verbosity check for console logging.
                     if(audioplayerVerbose) {
                         console.log("Youtube player state has changed to : " + (["Unstarted", "Ended", "Playing", "Paused", "Buffering", "Video Cued"][event.data + 1]));
                     }
+                    //parameter callback
                     onStateCallback(event);
                 };
             }
@@ -64,6 +74,7 @@ exports.theObject = class audioplayer
         /*else {
 
         }*/
+        //verbosity check for console logging.
         if(audioplayerVerbose) {
             console.log("Finished setting up the audioplayer, you can now call any other function.");
         }
@@ -75,6 +86,10 @@ exports.theObject = class audioplayer
      */
     mute()
     {
+        //verbosity check for console logging.
+        if(audioplayerVerbose) {
+            console.log("Muting this audioplayer.");
+        }
         if(this.source === 0) {
             this.player.mute();
         } //currently waiting for our soundcloud api key before implementing this portion.
@@ -89,6 +104,10 @@ exports.theObject = class audioplayer
      */
     unmute()
     {
+        //verbosity check for console logging.
+        if(audioplayerVerbose) {
+            console.log("Unmuting this audioplayer.");
+        }
         if(this.source === 0) {
             this.player.unMute();
         } //currently waiting for our soundcloud api key before implementing this portion.
@@ -104,6 +123,10 @@ exports.theObject = class audioplayer
     getCurrentTime()
     {
         if(this.source === 0) {
+            //extra verbosity check for console logging.
+            if(audioplayerVerboseExtra) {
+                console.log("Returning Current Time=" + this.player.getCurrentTime());
+            }
             return this.player.getCurrentTime();
         } //currently waiting for our soundcloud api key before implementing this portion.
         /*else {
@@ -118,6 +141,10 @@ exports.theObject = class audioplayer
     getRemainingTime()
     {
         if(this.source === 0) {
+            //extra verbosity check for console logging.
+            if(audioplayerVerboseExtra) {
+                console.log("Returning Remaining Time=" + (this.player.getDuration() - this.player.getCurrentTime()));
+            }
             return this.player.getDuration() - this.player.getCurrentTime();
         } //currently waiting for our soundcloud api key before implementing this portion.
         /*else {
@@ -132,10 +159,14 @@ exports.theObject = class audioplayer
     getPercentComplete()
     {
         if(this.source === 0) {
+            //extra verbosity check for console logging.
+            if(audioplayerVerboseExtra) {
+                console.log("Returning Percent Complete=" + (this.player.getCurrentTime() / this.player.getDuration()));
+            }
             return this.player.getCurrentTime() / this.player.getDuration();
         } //currently waiting for our soundcloud api key before implementing this portion.
         /*else {
 
         }*/
     }
-};
+}

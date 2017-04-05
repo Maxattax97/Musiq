@@ -1,6 +1,37 @@
 /* eslint-env jquery */
-/* global database window WebSocket YT*/
-var verbose = true;
+/* global database window WebSocket YT AudioPlayer Network*/
+
+require("audioplayer.js");
+require("network.js");
+
+var youtubePlayer = new AudioPlayer(0);
+var soundCloudPlayer = new AudioPlayer(1);
+
+var fullstackConnection = new Network("INSERT URL", "8080");
+
+var firebaseRoom;
+
+$("document").ready(function() {
+    youtubePlayer.setup();
+    soundCloudPlayer.setup();
+
+    fullstackConnection.connect();
+
+    youtubePlayer.hide();
+    soundCloudPlayer.hide();
+
+    var room = window.location.pathname;
+    room = room.substring(room.lastIndexOf("/"), room.lastIndexOf("."));
+
+    firebaseRoom = database.ref("rooms" + room);
+
+    initialize();
+});
+
+function initialize()
+{
+
+}
 
 var player;
 var shouldMute = true;
