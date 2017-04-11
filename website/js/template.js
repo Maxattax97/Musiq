@@ -1,6 +1,12 @@
 /* eslint-env jquery */
 /* global database window WebSocket YT AudioPlayer Network*/
 
+//Requires Firebase API. For any documentation questions regarding this,
+//Please refer to https://firebase.google.com/docs/reference/js
+
+//Requires Youtube Player API. For any documentation questions regarding this,
+//Please refer to https://developers.google.com/youtube/js_api_reference
+
 require("audioplayer.js");
 require("network.js");
 
@@ -9,21 +15,32 @@ var soundCloudPlayer = new AudioPlayer(1);
 
 var fullstackConnection = new Network("INSERT URL", "8080");
 
-var firebaseRoom;
+var roomRef;
+var songPlayingRef;
+var songListRef;
+var usersRef;
 
 $("document").ready(function() {
+    //setting up audio player systems
     youtubePlayer.setup();
     soundCloudPlayer.setup();
 
+    //attempt to connect
     fullstackConnection.connect();
 
+    //hide audio player systems as we don't know what is playing yet.
     youtubePlayer.hide();
     soundCloudPlayer.hide();
 
+    //find the location of the room from the url that was given to us.
     var room = window.location.pathname;
     room = room.substring(room.lastIndexOf("/"), room.lastIndexOf("."));
 
-    firebaseRoom = database.ref("rooms" + room);
+    //establishing all the references we will need and try to minimize the amount of mass data updating necessary.
+    roomRef = database.ref("rooms" + room);
+    songPlayingRef = roomRef.child("song-playing");
+    songListRef = roomRef.child("song-list");
+    usersRef = roomRef.child("users");
 
     initialize();
 });

@@ -12,7 +12,7 @@ class AudioPlayer
      */
     constructor(source)
     {
-        //verbosity check for console logging.
+        //check for audioplayer verbosity for constructor instance creation log.
         if(audioplayerVerbose) {
             console.log("Creating audioplayer instance with values : {source=" + (["Youtube", "SoundCloud"][source]) + "}");
         }
