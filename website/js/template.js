@@ -10,16 +10,20 @@
 require("audioplayer.js");
 require("network.js");
 
+//audio players
 var youtubePlayer = new AudioPlayer(0);
 var soundCloudPlayer = new AudioPlayer(1);
 
+//network client connection
 var fullstackConnection = new Network("INSERT URL", "8080");
 
+//firebase references for (read-only) database interaction
 var roomRef;
 var songPlayingRef;
 var songListRef;
 var usersRef;
 
+//JQuery ready function callback for when the webpage is ready
 $("document").ready(function() {
     //setting up audio player systems
     youtubePlayer.setup();
@@ -28,15 +32,15 @@ $("document").ready(function() {
     //attempt to connect
     fullstackConnection.connect();
 
-    //hide audio player systems as we don't know what is playing yet.
+    //hide audio player systems as we don't know what is playing yet
     youtubePlayer.hide();
     soundCloudPlayer.hide();
 
-    //find the location of the room from the url that was given to us.
+    //find the location of the room from the url that was given to us
     var room = window.location.pathname;
     room = room.substring(room.lastIndexOf("/"), room.lastIndexOf("."));
 
-    //establishing all the references we will need and try to minimize the amount of mass data updating necessary.
+    //establishing all the references we will need and try to minimize the amount of mass data updating necessary
     roomRef = database.ref("rooms" + room);
     songPlayingRef = roomRef.child("song-playing");
     songListRef = roomRef.child("song-list");
@@ -45,7 +49,97 @@ $("document").ready(function() {
     initialize();
 });
 
+/**
+ * Initializes events for firebase interaction (read-only)
+ * @initialize
+ */
 function initialize()
+{
+    //setting up current playing song events
+    songPlayingRef.on("child_changed", onSongChanged);
+
+    //setting up song list events
+    songListRef.on("child_added", onSongAdded);
+    songListRef.on("child_removed", onSongRemoved);
+    songListRef.on("child_changed", onSongUpvote);
+
+    //setting up user events
+    usersRef.on("child_added", onUserJoin);
+    usersRef.on("child_removed", onUserLeave);
+    usersRef.on("child_changed", onUserUpdate);
+}
+
+/**
+ * Called when the current playing song is changed to a new song
+ * @onSongChanged
+ * @param {DataSnapshot} [childSnapshot] the current instance of the child and it's retained values
+ * @param {String} [prevChildKey] a string containing the key of the previous sibling child by sort order, or null if it is the first child.
+ */
+function onSongChanged(childSnapshot, prevChildKey)
+{
+
+}
+
+/**
+ * Called when a song has been added to the song list
+ * @onSongAdded
+ * @param {DataSnapshot} [childSnapshot] the current instance of the child and it's retained values
+ * @param {String} [prevChildKey] a string containing the key of the previous sibling child by sort order, or null if it is the first child.
+ */
+function onSongAdded(childSnapshot, prevChildKey)
+{
+
+}
+
+/**
+ * Called when a song has been removed from the song list
+ * @onSongRemoved
+ * @param {DataSnapshot} [oldChildSnapshot] the instance of the removed child and it's retained values
+ */
+function onSongRemoved(oldChildSnapshot)
+{
+
+}
+
+/**
+ * Called when a song has been upvoted (the only instance of change) by a user
+ * @onSongUpvote
+ * @param {DataSnapshot} [childSnapshot] the current instance of the child and it's retained values
+ * @param {String} [prevChildKey] a string containing the key of the previous sibling child by sort order, or null if it is the first child.
+ */
+function onSongUpvote(childSnapshot, prevChildKey)
+{
+
+}
+
+/**
+ * Called when a new user enters the party room
+ * @onUserJoin
+ * @param {DataSnapshot} [childSnapshot] the current instance of the child and it's retained values
+ * @param {String} [prevChildKey] a string containing the key of the previous sibling child by sort order, or null if it is the first child.
+ */
+function onUserJoin(childSnapshot, prevChildKey)
+{
+
+}
+
+/**
+ * Called when a user leaves the party room
+ * @onUserLeave
+ * @param {DataSnapshot} [oldChildSnapshot] the instance of the removed child and it's retained values
+ */
+function onUserLeave(oldChildSnapshot)
+{
+
+}
+
+/**
+ * Called when a users data is being updated to reflect current meta data
+ * @onUserUpdate
+ * @param {DataSnapshot} [childSnapshot] the current instance of the child and it's retained values
+ * @param {String} [prevChildKey] a string containing the key of the previous sibling child by sort order, or null if it is the first child.
+ */
+function onUserUpdate(childSnapshot, prevChildKey)
 {
 
 }
